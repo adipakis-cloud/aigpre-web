@@ -1,15 +1,15 @@
-from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
-import uvicorn
 import os
+import uvicorn
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
 async def root():
-    return FileResponse("index.html")
+    with open("index.html", "r", encoding="utf-8") as f:
+        content = f.read()
+    return HTMLResponse(content=content)
 
 @app.get("/health")
 async def health():
